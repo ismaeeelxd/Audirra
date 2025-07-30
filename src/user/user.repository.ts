@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException } from "@nestjs/common";
 import { Prisma, User } from "generated/prisma";
 import { PrismaService } from "src/prisma.service";
-import { validateEmail, sanitizeEmail, PrismaConstants } from "src/common-utils/common-utils";
+import { validateEmail, sanitizeEmail, PrismaConstants, generateRandomNumber } from "src/common-utils/common-utils";
 
 @Injectable()
 export class UserRepository {
@@ -47,11 +47,11 @@ export class UserRepository {
                 data: {
                     email: sanitizeEmail(email),
                     passwordHash,
-                    name,
+                    name : name ?? `User_${generateRandomNumber()}`,
                 },
             });
         } catch (error) {
-            if (error.code === PrismaConstants.NOT_FOUND) {
+            if (error.code === PrismaConstants.ALREADY_EXISTS) {
                 throw new ConflictException('User with this email already exists');
             }
             throw error;

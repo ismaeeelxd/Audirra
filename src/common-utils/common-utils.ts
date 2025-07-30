@@ -15,3 +15,7 @@ export function validateEmail(email: string): boolean {
 export function sanitizeEmail(email: string): string {
     return email.trim().toLowerCase();
 }
+
+export function generateRandomNumber(){
+    return Math.floor(Math.random() * 10000);
+}
