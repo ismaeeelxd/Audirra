@@ -4,6 +4,7 @@ import { SignUpDto } from './dtos/sign-up.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { hashPassword } from 'src/common-utils/common-utils';
 
 @Injectable()
 export class AuthService {
@@ -24,12 +25,12 @@ export class AuthService {
             throw new ForbiddenException('Email already exists');
         }
 
-        const hash = await bcrypt.hash(password, 10);
+        const hashedPassword = await hashPassword(password);
 
         await this.prismaService.user.create({
             data: {
                 email,
-                passwordHash: hash,
+                passwordHash: hashedPassword,
                 name: name ?? 'placeholder'
             }
         });
