@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException } from "@nestjs/common";
 import { Prisma, User } from "generated/prisma";
 import { PrismaService } from "src/prisma.service";
-import { validateEmail, sanitizeEmail } from "src/common-utils/common-utils";
+import { validateEmail, sanitizeEmail, PrismaConstants } from "src/common-utils/common-utils";
 
 @Injectable()
 export class UserRepository {
@@ -51,7 +51,7 @@ export class UserRepository {
                 },
             });
         } catch (error) {
-            if (error.code === 'P2002') {
+            if (error.code === PrismaConstants.NOT_FOUND) {
                 throw new ConflictException('User with this email already exists');
             }
             throw error;
@@ -77,10 +77,10 @@ export class UserRepository {
                 data: { email: sanitizeEmail(newEmail) },
             });
         } catch (error) {
-            if (error.code === 'P2025') {
+            if (error.code === PrismaConstants.NOT_FOUND) {
                 throw new NotFoundException('User not found');
             }
-            if (error.code === 'P2002') {
+            if (error.code === PrismaConstants.ALREADY_EXISTS) {
                 throw new ConflictException('Email already exists');
             }
             throw error;
@@ -98,7 +98,7 @@ export class UserRepository {
                 data: { passwordHash },
             });
         } catch (error) {
-                if (error.code === 'P2025') {
+                if (error.code === PrismaConstants.NOT_FOUND) {
                     throw new NotFoundException('User not found');
                 }
             throw error;
@@ -115,7 +115,7 @@ export class UserRepository {
                 where: { email: sanitizeEmail(email) },
             });
         } catch (error) {
-                if (error.code === 'P2025') {
+                if (error.code === PrismaConstants.NOT_FOUND) {
                     throw new NotFoundException('User not found');
                 }
             throw error;
@@ -126,7 +126,6 @@ export class UserRepository {
         if (!validateEmail(email)) {
             return false;
         }
-
         const user = await this.findByEmail(email);
         return user !== null;
     }

@@ -1,3 +1,8 @@
+export enum PrismaConstants {
+    NOT_FOUND = "P2025",
+    ALREADY_EXISTS = "P2002"
+}
+
 const patterns = {
     email: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 };
