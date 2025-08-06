@@ -11,10 +11,7 @@ export class UserRepository {
         this.userModel = this.prismaService.user;
     }
 
-    async findById(id: number): Promise<User> {
-        if (id <= 0) {
-            throw new BadRequestException('Invalid user ID');
-        }
+    async findById(id: string): Promise<User> {
 
         const user = await this.userModel.findUnique({
             where: { id },
@@ -130,17 +127,14 @@ export class UserRepository {
         return user !== null;
     }
 
-    async update(id: number, data: Prisma.UserUpdateInput): Promise<User> {
-        if (id <= 0) {
-            throw new BadRequestException('Invalid user ID');
-        }
-
+    async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {
+        
         try {
             return await this.userModel.update({
                 where: { id },
                 data,
             });
-            
+
         } catch (error) {
             if (error.code === PrismaConstants.NOT_FOUND) {
                 throw new NotFoundException(`User with ID ${id} not found`);

@@ -15,9 +15,23 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(uuid())
   createdAt    DateTime @default(now())
   email        String   @unique
   name         String?
   passwordHash String
+  Song         Song[]
+}
+
+model Song {
+  id        String   @id @default(uuid())
+  title     String
+  artist    User     @relation(fields: [artistId], references: [id])
+  artistId  String
+  duration  Int
+  genre     String
+  coverPath String
+  filePath  String
+  playCount Int      @default(0)
+  createdAt DateTime @default(now())
 }

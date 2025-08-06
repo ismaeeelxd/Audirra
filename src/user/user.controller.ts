@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Request, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'generated/prisma';
@@ -13,7 +13,7 @@ export class UserController {
     return await this.userService.getProfile(req.user.id);
   }
 
-  @Post('update')
+  @Patch('update')
   @UseGuards(AuthGuard('jwt'))
   async updateProfile(@Request() req, @Body() body : { name?: string, email?: string }): Promise<User> {
     const { name, email } = body;

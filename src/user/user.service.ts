@@ -6,11 +6,11 @@ import { User } from 'generated/prisma';
 export class UserService {
     constructor(private userRepository : UserRepository){}
     
-    async getProfile(id : number) : Promise<String | null>{
+    async getProfile(id : string) : Promise<String | null>{
         return (await this.userRepository.findById(id)).name;
     }
 
-    async updateProfile(id : number, name?: string, email?: string): Promise<User> {
+    async updateProfile(id : string, name?: string, email?: string): Promise<User> {
         const update = {};
         if (name) {
             update['name'] = name;
