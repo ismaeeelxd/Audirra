@@ -1,5 +1,4 @@
 import * as bcrypt from 'bcrypt';
-import e from 'express';
 export enum PrismaConstants {
     NOT_FOUND = "P2025",
     ALREADY_EXISTS = "P2002"

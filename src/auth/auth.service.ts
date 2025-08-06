@@ -4,7 +4,7 @@ import { SignUpDto } from './dtos/sign-up.dto';
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dtos/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { hashPassword } from 'src/common-utils/common-utils';
+import { comparePassword, hashPassword } from 'src/common-utils/common-utils';
 
 @Injectable()
 export class AuthService {
@@ -48,8 +48,8 @@ export class AuthService {
         });
 
         if (!user) throw new ForbiddenException('Invalid credentials');
-
-        const isSamePassword = await bcrypt.compare(password, user.passwordHash);
+        const { passwordHash } = user;
+        const isSamePassword = await comparePassword(password,passwordHash);
         if (!isSamePassword) {
             throw new ForbiddenException('Invalid credentials');
         }
