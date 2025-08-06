@@ -9,6 +9,17 @@ export class UserService {
         return (await this.userRepository.findById(id)).name;
     }
 
+    async updateProfile(id : number, name?: string, email?: string): Promise<void> {
+        const update = {};
+        if (name) {
+            update['name'] = name;
+        }
+        if (email) {
+            update['email'] = email;
+        }
+        await this.userRepository.update(id, update);
+    }
+
 
 
 }

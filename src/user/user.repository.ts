@@ -129,4 +129,23 @@ export class UserRepository {
         const user = await this.findByEmail(email);
         return user !== null;
     }
+
+    async update(id: number, data: Prisma.UserUpdateInput): Promise<User> {
+        if (id <= 0) {
+            throw new BadRequestException('Invalid user ID');
+        }
+
+        try {
+            return await this.userModel.update({
+                where: { id },
+                data,
+            });
+            
+        } catch (error) {
+            if (error.code === PrismaConstants.NOT_FOUND) {
+                throw new NotFoundException(`User with ID ${id} not found`);
+            }
+            throw error;
+        }
+    }
 }
