@@ -54,7 +54,7 @@ export class UserRepository {
             throw error;
         }
     }
-
+    
     async updateEmail(currentEmail: string, newEmail: string): Promise<User> {
         if (!validateEmail(currentEmail)) {
             throw new BadRequestException('Invalid current email format');
