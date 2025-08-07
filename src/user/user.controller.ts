@@ -9,7 +9,7 @@ export class UserController {
 
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
-  async getProfile(@Request() req): Promise<String | null> {
+  async getProfile(@Request() req): Promise<string | null> {
     return await this.userService.getProfile(req.user.id);
   }
 

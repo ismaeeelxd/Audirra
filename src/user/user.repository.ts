@@ -11,12 +11,10 @@ export class UserRepository {
         this.userModel = this.prismaService.user;
     }
 
-    async findById(id: string): Promise<User> {
+    async findById(id: string): Promise<any> {
 
-        const user = await this.userModel.findUnique({
-            where: { id },
-        });
-
+        const user = await this.prismaService.$queryRaw`SELECT * FROM "User" WHERE id = ${id}`;
+        console.log(user);
         if (!user) {
             throw new NotFoundException(`User with ID ${id} not found`);
         }
@@ -54,7 +52,7 @@ export class UserRepository {
             throw error;
         }
     }
-    
+
     async updateEmail(currentEmail: string, newEmail: string): Promise<User> {
         if (!validateEmail(currentEmail)) {
             throw new BadRequestException('Invalid current email format');

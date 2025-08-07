@@ -7,8 +7,9 @@ import { validateEmail } from 'src/common-utils/common-utils';
 export class UserService {
     constructor(private userRepository : UserRepository){}
     
-    async getProfile(id : string) : Promise<String | null>{
-        return (await this.userRepository.findById(id)).name;
+    async getProfile(id : string) : Promise<string | null>{
+        const user = (await this.userRepository.findById(id))[0];
+        return user.name;
     }
 
     async updateProfile(id : string, name?: string, email?: string): Promise<User> {

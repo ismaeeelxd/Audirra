@@ -30,3 +30,9 @@ export async function hashPassword(password : string) : Promise<string> {
 export async function comparePassword(password: string, hashedPassword: string) : Promise<boolean> {
     return await bcrypt.compare(password,hashedPassword);
 }
+
+export function print(message : string, ...args: any[]) {
+        console.log("\n\n==================\n\n");
+        console.log(message, ...args);
+        console.log("\n\n==================\n\n");
+}
