@@ -6,13 +6,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy/jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { UserRepository } from 'src/user/user.repository';
+import { appConfig } from 'src/configs/app-config';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'super-secret-key!!',
+      secret: appConfig['jwtSecret'],
       signOptions: {
-        expiresIn: '1h'
+        expiresIn: appConfig['jwtExpiry']
       }
     }),
     PassportModule,

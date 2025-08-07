@@ -10,7 +10,7 @@ export class SongController {
   constructor(private readonly songService: SongService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('file', uploadOptions))
+  @UseInterceptors(FileInterceptor('song', uploadOptions))
   create(@UploadedFile() file: Express.Multer.File) {
     print("File received:", file);
   }
